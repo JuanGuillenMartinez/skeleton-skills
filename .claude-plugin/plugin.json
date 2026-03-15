@@ -1,0 +1,23 @@
+{
+  "name": "skeleton-skills",
+  "description": "Full-stack development workflow for Laravel 12 + Next.js 15 modular monolith projects. Enforces TDD, architecture guards, brainstorm-first design, and systematic debugging across backend and frontend.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Juan Guillen Martinez"
+  },
+  "homepage": "https://github.com/JuanGuillenMartinez/skeleton-skills",
+  "repository": "https://github.com/JuanGuillenMartinez/skeleton-skills",
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "nextjs",
+    "tdd",
+    "modular-monolith",
+    "architecture",
+    "debugging",
+    "design-system",
+    "skills",
+    "workflow"
+  ],
+  "skills": "./skills/"
+}
