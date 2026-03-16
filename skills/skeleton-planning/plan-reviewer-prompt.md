@@ -25,7 +25,7 @@ Agent tool (general-purpose):
     | TDD discipline | Every task has RED→GREEN→GUARD→COMMIT steps |
     | File paths | Paths match ARCHITECTURE.md conventions (Modules/{Mod}/ or modules/{mod}/) |
     | Architecture guards | Each task ends with appropriate guard commands |
-    | Naming conventions | Actions, DTOs, hooks, components follow CLAUDE.md naming rules |
+    | Naming conventions | Actions, Data, hooks, components follow CLAUDE.md naming rules |
     | Full-stack order | Backend tasks before frontend tasks (if cross-project) |
     | Checkbox syntax | Steps use `- [ ]` for tracking |
 
@@ -33,7 +33,7 @@ Agent tool (general-purpose):
 
     Look especially hard for:
     - Tasks that skip the RED phase (writing implementation before test)
-    - Wrong file paths (App\Models instead of Modules\{Mod}\Models)
+    - Wrong file paths (App\Models instead of Modules\{Mod}\Models, Http\Controllers\ instead of Http\, DTOs\ instead of Data\)
     - Missing architecture guard steps
     - Tasks that are too large (should be decomposed further)
     - SoftDeletes usage (prohibited)

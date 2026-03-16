@@ -38,9 +38,9 @@ Every plan MUST start with:
    - One clear responsibility per file
    - Dependency order (what gets built first)
 4. **Verify file paths against ARCHITECTURE.md:**
-   - Backend tests: `app/Modules/{Mod}/Tests/Feature/` or `app/Modules/{Mod}/Tests/Unit/` — NEVER `tests/Feature/`
+   - Backend tests: `app/Modules/{Mod}/Tests/{Entity}Test.php` — NEVER `tests/Feature/` or separate Feature/Unit subdirectories
    - Backend code: `app/Modules/{Mod}/` — NEVER `app/Models/`, `app/Http/Controllers/`
-   - Frontend tests: `modules/{mod}/__tests__/` — NEVER `__tests__/` at root
+   - Frontend tests: `modules/{mod}/{mod}.test.ts` — NEVER `__tests__/` at root
    - Frontend code: `modules/{mod}/` — NEVER root-level files for module logic
    - Cross-check every file path in the plan against the module structure template in ARCHITECTURE.md
 5. **Decompose into atomic tasks** (2-5 min each):
@@ -79,7 +79,7 @@ Every plan MUST start with:
 
 8. **For full-stack:** Backend tasks BEFORE frontend tasks. Frontend tasks reference the API created in backend.
 9. **Architecture guard checkpoints** after each task:
-   - Backend: `cd backend && ./vendor/bin/pint --test && ./vendor/bin/phpstan analyse && php artisan modules:check-dependencies`
+   - Backend: `cd backend && ./vendor/bin/pint --test && ./vendor/bin/phpstan analyse` (+ `modules:check-dependencies` if available — may not exist yet)
    - Frontend: `cd frontend && npm run lint && npm run typecheck`
 10. **Save plan** to `docs/plans/YYYY-MM-DD-{feature-name}.md`
 11. **Plan review loop** (up to 5 iterations): Dispatch reviewer, fix issues, repeat until approved. If 5 iterations reached without approval → escalate to human.
@@ -108,7 +108,7 @@ Plan output:
 Task 1: Migration + Model
   - Create: Modules/Customer/Database/Migrations/2026_03_14_create_customers_table.php
   - Create: Modules/Customer/Models/Customer.php
-  - Test: Modules/Customer/Tests/Feature/Http/CustomerControllerTest.php
+  - Test: Modules/Customer/Tests/CustomerTest.php
   - Step 1: Write test that POSTs to /api/customers → FAIL (table doesn't exist)
   - Step 2: Run test → FAIL ✓
   - Step 3: Create migration + model
@@ -116,8 +116,8 @@ Task 1: Migration + Model
   - Step 5: pint + phpstan
   - Step 6: Commit
 
-Task 2: DTOs
-  (CreateCustomerData, UpdateCustomerData, CustomerData)
+Task 2: Data
+  (CustomerData with Optional fields)
   ...
 ```
 
@@ -126,7 +126,7 @@ Task 2: DTOs
 ```
 Plan output:
 Task 1: Create entire Customer module
-  - Create ALL files (migration, model, DTOs, action, controller, tests)
+  - Create ALL files (migration, model, Data, action, controller, tests)
   - Run all tests at end
   - Single commit
 

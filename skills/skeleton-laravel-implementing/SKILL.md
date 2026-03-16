@@ -37,30 +37,31 @@ PHP is not available on the host machine. ALL commands must be prefixed with `./
    - If `compose.yaml` doesn't exist: `docker run --rm -v "$(pwd):/opt" -w /opt laravelsail/php84-composer:latest php artisan sail:install --with=pgsql,redis`
    - Wait for containers to be healthy before proceeding
 3. **RED — Write failing test:**
-   - Location: `Modules/{Mod}/Tests/Feature/Http/` (endpoints) or `Modules/{Mod}/Tests/Unit/Actions/` (complex logic)
+   - Location: `Modules/{Mod}/Tests/{Entity}Test.php` (single test file with describe() blocks per action)
    - Framework: Pest (functional syntax, NOT PHPUnit classes)
    - Use factories for test data
-   - Run: `cd backend && php artisan test --filter={TestName}`
+   - Run: `cd backend && ./vendor/bin/sail artisan test --filter={TestName}`
    - **Verify: FAIL** with the expected message
 4. **GREEN — Minimal implementation:**
    - Create files per plan (Action, DTO, Controller, FormRequest, etc.)
    - Respect CLAUDE.md conventions:
      - Actions: invocable (`__invoke()`)
-     - DTOs: spatie/laravel-data, separated (Create/Update/Output)
+     - Data: ONE `{Entity}Data.php` with Optional fields (create/update/output in a single DTO)
+     - FormRequests: ONE `{Entity}Request.php` with `match($this->method())` for rules per HTTP method
      - No SoftDeletes — status with enums
      - Permissions: `{mod}.{action}`
      - i18n: `__('mod::messages.key')`
      - Validation: ONLY in Form Requests
      - Controllers: validate → authorize → Action → response (no business logic)
      - Authorization: Use `Gate::authorize()` (not `$this->authorize()` — Laravel 12's base Controller no longer includes AuthorizesRequests trait)
-   - Run: `cd backend && php artisan test --filter={TestName}`
+   - Run: `cd backend && ./vendor/bin/sail artisan test --filter={TestName}`
    - **Verify: PASS**
 5. **REFACTOR — Clean if needed:**
    - Remove duplication, improve names
    - Do NOT add functionality
-   - Run: `cd backend && php artisan test` (full suite)
+   - Run: `cd backend && ./vendor/bin/sail artisan test` (full suite)
    - **Verify: ALL PASS**
-6. **Code style:** `cd backend && ./vendor/bin/pint`
+6. **Code style:** `cd backend && ./vendor/bin/sail php ./vendor/bin/pint`
 7. **Commit:**
    ```bash
    cd backend && git add [specific files] && git commit -m "feat(mod): description"
@@ -124,7 +125,7 @@ it('throws InsufficientStockException when stock is not available', function () 
 
 | Agent's excuse | Reality |
 |----------------|---------|
-| "It's just a DTO, it doesn't need a test" | DTOs are tested indirectly in Feature tests of the endpoint that uses them. Write the Feature test first. |
+| "It's just a Data DTO, it doesn't need a test" | Data DTOs are tested indirectly in Feature tests of the endpoint that uses them. Write the Feature test first. |
 | "The migration can't be tested with TDD" | The migration is tested with the Feature test that uses the table. RED: test that uses the table → FAIL (table doesn't exist). GREEN: migration + model. |
 | "I'm just wiring things up, there's no logic" | "Wiring" is where integration bugs live. The Feature test verifies the wiring works. |
 | "I'll write the test after" | No. Delete the code. Start over. Test goes FIRST. Always. |
