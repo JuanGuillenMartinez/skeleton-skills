@@ -38,7 +38,7 @@ Router that executes plan tasks in order, delegating each to the appropriate sta
 ```
 Plan has 5 tasks:
   Task 1: Backend migration — routes to skeleton:laravel-implementing
-  Task 2: Backend DTOs — routes to skeleton:laravel-implementing
+  Task 2: Backend Data + Actions — routes to skeleton:laravel-implementing
   Task 3: Backend endpoint — routes to skeleton:laravel-implementing
   Task 4: Frontend types + API — routes to skeleton:nextjs-implementing
   Task 5: Frontend hook + page — routes to skeleton:nextjs-implementing

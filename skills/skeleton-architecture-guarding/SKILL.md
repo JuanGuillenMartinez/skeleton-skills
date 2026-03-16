@@ -25,7 +25,7 @@ Validates that code changes respect architecture boundaries and quality standard
 | 1 | `cd backend && ./vendor/bin/pint --test` | PSR-12 code style | Exit 0, no changes |
 | 2 | `cd backend && ./vendor/bin/phpstan analyse` | Types, level 6 | 0 errors |
 | 3 | `cd backend && php artisan modules:check-dependencies` | No cycles between modules | Exit 0 |
-| 4 | Manual import validation | Only `Contracts/` and `DTOs/` imported from other modules | No prohibited imports |
+| 4 | Manual import validation | Only `Contracts/` (extension point) and `Data/` imported from other modules | No prohibited imports |
 
 ### Frontend Guards
 
@@ -51,11 +51,11 @@ Validates that code changes respect architecture boundaries and quality standard
 
 **Backend — check files changed in last commit:**
 ```bash
-cd backend && git diff --name-only HEAD~1 | grep -v '/Contracts/' | grep -v '/DTOs/' | while read f; do
-  grep -n 'use.*Modules\\' "$f" 2>/dev/null | grep -v "$(dirname "$f" | sed 's|/|\\\\|g')" | grep -v '\\Contracts\\' | grep -v '\\DTOs\\'
+cd backend && git diff --name-only HEAD~1 | grep -v '/Contracts/' | grep -v '/Data/' | while read f; do
+  grep -n 'use.*Modules\\' "$f" 2>/dev/null | grep -v "$(dirname "$f" | sed 's|/|\\\\|g')" | grep -v '\\Contracts\\' | grep -v '\\Data\\'
 done
 ```
-Any output = FAIL (importing non-Contract/DTO from another module).
+Any output = FAIL (importing non-Contract/Data from another module).
 
 **Frontend — check files changed in last commit:**
 ```bash

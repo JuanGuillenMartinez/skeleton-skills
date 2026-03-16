@@ -31,10 +31,10 @@ Explores requirements through Socratic dialogue, injects architecture constraint
 4. **Inject architecture constraints** based on target repo:
 
    **Backend constraints (from ARCHITECTURE.md):**
-   - Module structure: `Modules/{Mod}/` with Actions, Contracts, Services, DTOs, Models, Http, Tests, Routes, Config, Lang
-   - Inter-module communication: ONLY via Contracts (interfaces) + DTOs. NEVER import Models/Services/Actions from other modules.
+   - Module structure: `Modules/{Mod}/` base case: Actions, Data, Models, Http, Policies, Tests. Extension points (only when needed): Contracts, Services, Config, Lang, Routes
+   - Inter-module communication: ONLY via Contracts (extension point) + Data. NEVER import Models/Services/Actions from other modules.
    - Actions: invocable classes (`__invoke()`), all business logic here
-   - DTOs: spatie/laravel-data, separated by purpose — `Create*Data` / `Update*Data` (input), `*Data` (output)
+   - Data: ONE DTO per entity (`{Entity}Data`) with Optional fields for create/update/output
    - No SoftDeletes — use status with enums
    - Validation: ONLY in Form Requests
    - Permissions: `{mod}.{action}` via spatie/laravel-permission
@@ -42,7 +42,7 @@ Explores requirements through Socratic dialogue, injects architecture constraint
    - Testing: Pest, Feature tests MANDATORY for endpoints, Unit only for complex Actions
 
    **Frontend constraints (from ARCHITECTURE.md):**
-   - Module structure: `modules/{mod}/` with api.ts, hooks/, components/, types.ts
+   - Module structure: `modules/{mod}/` with api.ts, hooks.ts, components/, types.ts, schemas.ts
    - Data fetching: `api.*` from http-client, NEVER direct fetch()
    - State: TanStack Query (server), Zustand (global UI), useState (local UI)
    - Query key factories: `{mod}Keys.all`, `{mod}Keys.list(params)`, `{mod}Keys.detail(id)`
@@ -54,7 +54,7 @@ Explores requirements through Socratic dialogue, injects architecture constraint
 
 5. **Propose approaches** with pros/cons, evaluated against the constraints:
    - 2-3 approaches when meaningful alternatives exist
-   - 1 approach with explicit justification from ARCHITECTURE.md when the architecture leaves no meaningful design alternatives (e.g., the modular structure dictates file locations, DTOs, Actions pattern)
+   - 1 approach with explicit justification from ARCHITECTURE.md when the architecture leaves no meaningful design alternatives (e.g., the modular structure dictates file locations, Data, Actions pattern)
    - Approaches should differ in scope/strategy, not just in minor implementation details
 6. **Present design** in sections:
    - Files to create/modify (exact paths)
@@ -105,15 +105,14 @@ Agent:
 4. ✅ Asks: "What permissions? customers.view, customers.create, customers.update?"
 5. ✅ Asks: "Does Customer interact with other modules (Sales, Invoicing)?"
 6. ✅ Injects constraints: "Per ARCHITECTURE.md, Customer will expose
-   a CustomerServiceContract with DTOs. Sales module will only import
-   the contract + DTOs, never the Customer model directly."
+   a CustomerContract (extension point) with Data. Sales module will only
+   import the contract + Data, never the Customer model directly."
 7. ✅ Proposes design:
-   - Modules/Customer/Contracts/CustomerServiceContract.php
-   - Modules/Customer/DTOs/CreateCustomerData.php
-   - Modules/Customer/DTOs/CustomerData.php
+   - Modules/Customer/Data/CustomerData.php (single DTO with Optional fields)
    - Modules/Customer/Actions/CreateCustomerAction.php
-   - Modules/Customer/Http/Controllers/CustomerController.php
-   - Modules/Customer/Tests/Feature/Http/CustomerControllerTest.php
+   - Modules/Customer/Http/CustomerController.php
+   - Modules/Customer/Http/CustomerRequest.php (match($this->method()) for rules)
+   - Modules/Customer/Tests/CustomerTest.php (describe blocks per action)
 8. ✅ Runs spec review
 9. ✅ Waits for user approval
 ```
@@ -126,7 +125,7 @@ User: "Necesito un módulo de Clientes para el backend"
 Agent:
 1. ❌ Skips questions, assumes requirements
 2. ❌ Designs with App\Models\Customer (wrong structure)
-3. ❌ Uses API Resources instead of DTOs
+3. ❌ Uses API Resources instead of Data DTOs
 4. ❌ Adds SoftDeletes to migration
 5. ❌ Starts coding immediately without user approval
 ```
@@ -135,7 +134,7 @@ Agent:
 
 - ARCHITECTURE.md of target repo (already loaded by bootstrap)
 - Existing files in the most similar module (as pattern reference)
-- `config/modules.php` (backend) if there are inter-module dependencies
+- Module auto-discovery via AppServiceProvider (no config/modules.php — deleted)
 - Existing types/interfaces if integrating with existing modules
 
 ## Files Generated

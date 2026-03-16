@@ -19,8 +19,7 @@ TDD implementation for frontend tasks. RED→GREEN→REFACTOR→GUARD→COMMIT f
 1. **Read the current task** from the plan
 2. **RED — Write failing test:**
    - Location:
-     - Hooks/API: `modules/{mod}/__tests__/{file}.test.ts`
-     - Components with logic: `modules/{mod}/__tests__/{component}.test.tsx`
+     - Module tests: `modules/{mod}/{mod}.test.ts` (single test file per module with describe() blocks)
      - Lib/utils: `lib/__tests__/{file}.test.ts`
    - Framework: Vitest + Testing Library + MSW
    - Use MSW to intercept API calls (NEVER `vi.mock`)
@@ -56,7 +55,7 @@ TDD implementation for frontend tasks. RED→GREEN→REFACTOR→GUARD→COMMIT f
 import { renderHook, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { server } from '@/test/setup';
-import { useCustomers } from '../hooks/use-customers';
+import { useCustomers } from '../hooks';
 import { createWrapper } from '@/test/providers';
 
 it('fetches customers list', async () => {
@@ -135,7 +134,7 @@ Task: Create useCustomers hook
 
 1. ✅ Write test: it('fetches customers list', ...) with MSW
 2. ✅ Run test → FAIL: "useCustomers is not defined"
-3. ✅ Create: modules/customers/hooks/use-customers.ts + modules/customers/api.ts
+3. ✅ Create: modules/customers/hooks.ts + modules/customers/api.ts
 4. ✅ Run test → PASS
 5. ✅ Run full suite → ALL PASS
 6. ✅ lint → clean, typecheck → clean

@@ -137,7 +137,7 @@ Agent:
 2. ❌ Starts creating files immediately in app/Models/
 3. ❌ Uses SoftDeletes (laravel-specialist default)
 4. ❌ Creates App\Http\Controllers\InventoryController instead of
-   Modules\Inventory\Http\Controllers\
+   Modules\Inventory\Http\
 ```
 
 ## Transitions

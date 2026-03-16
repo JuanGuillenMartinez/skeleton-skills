@@ -20,10 +20,10 @@ Agent tool (general-purpose):
     | Category | What to Look For |
     |----------|------------------|
     | Module structure | Files in correct locations per ARCHITECTURE.md |
-    | Inter-module deps | Only Contracts + DTOs imported from other modules |
-    | Naming conventions | Actions, DTOs, Controllers follow naming rules |
+    | Inter-module deps | Only Contracts (ext point) + Data imported from other modules |
+    | Naming conventions | Actions, Data, Controllers follow naming rules |
     | No SoftDeletes | Uses status enums instead (backend) |
-    | DTOs separated | Create*Data, Update*Data, *Data (backend) |
+    | Data | ONE {Entity}Data.php with Optional fields (base case). Split only as extension point. |
     | Test coverage | Feature tests for endpoints, unit for complex logic |
     | Frontend patterns | api.ts + hooks + components structure (frontend) |
     | State management | TQ for server, Zustand for global UI (frontend) |
