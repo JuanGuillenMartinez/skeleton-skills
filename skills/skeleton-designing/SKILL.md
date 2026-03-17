@@ -24,7 +24,7 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - Does it interact with other modules? Which ones?
 3. **Inject architecture constraints** from ARCHITECTURE.md:
    - Backend: base module structure (12 files), extension points only when triggered, inter-module via Contracts+Data only
-   - Frontend: base module structure (9 files), extension points only when triggered
+   - Frontend: base module structure (10 files), extension points only when triggered. Generate with `npx tsx scripts/make-module.ts --name={mod} --entity={Entity}`
 4. **Propose design** (1 approach if architecture dictates, 2-3 if meaningful alternatives exist):
    - Files to create/modify (exact paths)
    - Extension points needed (if any, with trigger justification)
