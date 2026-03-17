@@ -23,27 +23,24 @@ Or add to your project's `.claude/settings.json`:
 | Skill | When |
 |-------|------|
 | `skeleton-bootstrapping` | Start of every session — loads context, routes intent |
-| `skeleton-brainstorming` | Before any creative work — explores requirements |
-| `skeleton-planning` | After brainstorming — creates atomic TDD task plan |
-| `skeleton-implementing` | Routes plan tasks to stack-specific skills |
+| `skeleton-designing` | Before any new feature — explores requirements + creates TDD plan |
 | `skeleton-laravel-implementing` | TDD for backend tasks (Pest, Pint, Modules/) |
 | `skeleton-nextjs-implementing` | TDD for frontend tasks (Vitest, MSW, modules/) |
-| `skeleton-architecture-guarding` | Post-task validation (pint, phpstan, lint, typecheck) |
-| `skeleton-debugging` | Systematic 4-phase debugging |
-| `skeleton-verifying` | Final verification before claiming done |
+| `skeleton-validating` | After each task and as final check before completion |
 | `skeleton-finishing` | Merge/PR/keep/discard — multi-repo aware |
+| `skeleton-debugging` | Systematic 4-phase debugging |
 | `skeleton-writing-skills` | Meta: create/edit skills with RED-GREEN-REFACTOR |
 | `design-system-extractor` | Analyze /design folder, generate DESIGN_SYSTEM.md |
 
 ## Workflow
 
 ```
-brainstorm → plan → implement (TDD) → guard → verify → finish
+bootstrap → design → implement (TDD) → validate → finish
 ```
 
 - **Backend first, frontend second** for full-stack features
 - **TDD obligatorio** — test first, implement second
-- **Architecture guards** before every merge
+- **Architecture guards** after every task and before completion
 
 ## License
 
