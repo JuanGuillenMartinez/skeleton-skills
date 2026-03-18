@@ -69,7 +69,7 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
 8. **Ordering rules:**
    - Backend tasks BEFORE frontend tasks (full-stack)
    - Dependency order (migration before model before action before controller)
-   - Compact format OK when referencing Catalog patterns: "Follow Catalog pattern, adapt Entity/mod names"
+   - Compact format OK when referencing stub patterns from make:module: "Follow stub pattern, adapt Entity/mod names"
 9. **Save plan** to `docs/plans/YYYY-MM-DD-{feature-name}.md`
 10. **Handoff:** "Plan saved. Ready to execute?"
 

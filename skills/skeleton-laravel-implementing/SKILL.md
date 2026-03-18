@@ -55,16 +55,16 @@ PHP is NOT on host. All commands use `./vendor/bin/sail`:
 ## Test Pattern (Feature — mandatory)
 
 ```php
-it('creates a product', function () {
+it('creates a {entityLower}', function () {
     $user = User::factory()->create();
-    $user->givePermissionTo('catalog.create');
+    $user->givePermissionTo('{moduleLower}.create');
 
     $this->actingAs($user)
-        ->postJson('/api/products', ['name' => 'Test', 'sku' => 'T-1', 'price' => 100])
+        ->postJson('/api/{entitiesLower}', ['name' => 'Test'])
         ->assertCreated()
-        ->assertJsonStructure(['data' => ['id', 'name', 'price']]);
+        ->assertJsonStructure(['data' => ['id', 'name', 'status']]);
 
-    $this->assertDatabaseHas('products', ['name' => 'Test']);
+    $this->assertDatabaseHas('{entitiesSnake}', ['name' => 'Test']);
 });
 ```
 
