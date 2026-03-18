@@ -48,6 +48,12 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - [ ] Tests in correct location per ARCHITECTURE.md?
    - [ ] [FE] No barrel exports? No cross-module imports?
    - [ ] [FE] Forms: Zod → RHF → shadcn? Labels from `lib/labels.ts`? Env from `config/env.ts`?
+   - [ ] [FE] IDs y timestamps son `string`, nunca `number`?
+   - [ ] [FE] TypeScript strict, sin `any`?
+   - [ ] [FE] State: server=TanStack Query, global UI=Zustand, local=useState?
+   - [ ] [FE] Permisos con can()/Authorized en componentes que los requieran?
+   - [ ] [FE] Test strategy definida (qué hooks/components se testean)?
+   - [ ] [FE] Manejo de errores: mapApiErrors cubre 422 por campo, errores de negocio, y errores inesperados?
 6. **User approval:** Present design, wait for explicit confirmation.
 
 ## Phase 2 — Plan

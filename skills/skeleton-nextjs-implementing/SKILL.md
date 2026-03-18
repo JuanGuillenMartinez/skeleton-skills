@@ -28,6 +28,9 @@ TDD implementation for frontend tasks. Every task follows RED→GREEN→REFACTOR
    - Query keys: `{mod}Keys.all`, `{mod}Keys.list(params)`, `{mod}Keys.detail(id)`
    - Hooks: `use{Mod}s`, `use{Action}{Mod}` — behavior in hooks, UI in components
    - Forms: Zod schema → RHF `useForm` → shadcn `FormField` → `mutateAsync` + `mapApiErrors`
+   - Error handling: `mapApiErrors(error, form.setError)` obligatorio en forms.
+     Cubre: 422 por campo, errores de negocio (toast), errores inesperados (toast genérico)
+   - IDs y timestamps: siempre `string`. NEVER `number` para IDs
    - Labels: `lib/labels.ts`. NEVER hardcoded user-facing text
    - Env: `import { env } from "@/config/env"`. NEVER `process.env`
    - Styling: Tailwind + `cn()` only. NEVER CSS modules or styled-components
