@@ -28,12 +28,15 @@ Guides completion of development work with multi-repo awareness.
    | **C. Keep as-is** | WIP, will continue later |
    | **D. Discard** | Failed experiment (requires text confirmation) |
 
-3. **Execute** (backend FIRST for full-stack):
+3. **Pre-commit: API type sync** (before committing frontend):
+   - [ ] `npm run generate:types` was run after the last backend change
+   - [ ] `npm run typecheck` passes after regenerating types
+4. **Execute** (backend FIRST for full-stack):
    - **A:** `git checkout main && git merge {branch}`
    - **B:** `git push -u origin {branch} && gh pr create ...`
    - **C:** Report branch name
    - **D:** Confirm → `git branch -D {branch}`
-4. **Full-stack PRs:** Separate per repo. Frontend PR references backend PR.
+5. **Full-stack PRs:** Separate per repo. Frontend PR references backend PR.
 
 ## Transitions
 

@@ -93,6 +93,18 @@ Search for `use App\Modules\` across all modules. Cross-module imports are valid
 
 Any other cross-module import (`Services/`, `Actions/`, `Http/`, etc.) = violation.
 
+### OpenAPI → Frontend Type Sync (after backend final passes)
+
+RULE: Any change to Controllers or FormRequests requires regenerating frontend types.
+NEVER: Commit backend changes without syncing `types/api.ts`.
+
+| # | Step | Criteria |
+|---|------|----------|
+| 1 | Verify Sail is running | `docker compose ps` shows containers up |
+| 2 | `cd frontend && npm run generate:types` | Exit 0, `types/api.ts` updated |
+| 3 | If `types/api.ts` changed: `cd frontend && npm run typecheck` | Exit 0 |
+| 4 | If typecheck fails | Report errors. Do NOT continue to `skeleton:finishing` |
+
 ### Cross-project (full-stack)
 
 - `cd frontend && npm run generate:types` — regenerate from OpenAPI
