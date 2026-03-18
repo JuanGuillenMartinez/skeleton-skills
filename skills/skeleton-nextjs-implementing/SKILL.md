@@ -15,6 +15,7 @@ TDD implementation for frontend tasks. Every task follows RED→GREEN→REFACTOR
 
 ## Checklist
 
+0. **Read `frontend/ARCHITECTURE.md`** — verify plan alignment with current conventions before implementing.
 1. **Read the task** from the plan
 2. **RED — Write failing test:**
    - Location: `modules/{mod}/__tests__/{mod}.test.ts` (single file, `describe()` blocks)
@@ -22,11 +23,19 @@ TDD implementation for frontend tasks. Every task follows RED→GREEN→REFACTOR
    - Run: `cd frontend && npm run test -- --run {test-file}`
    - **Verify: FAIL**
 3. **GREEN — Minimal implementation:**
-   - Data fetching: `api.*` from `lib/http-client.ts` (never direct `fetch`)
+   Implement per ARCHITECTURE.md. Quick-ref:
+   - Data fetching: `api.*` from `lib/http-client.ts`. NEVER direct `fetch()`
    - Query keys: `{mod}Keys.all`, `{mod}Keys.list(params)`, `{mod}Keys.detail(id)`
    - Hooks: `use{Mod}s`, `use{Action}{Mod}` — behavior in hooks, UI in components
-   - Labels: from `lib/labels.ts` (never hardcoded)
-   - TypeScript strict, never `any`
+   - Forms: Zod schema → RHF `useForm` → shadcn `FormField` → `mutateAsync` + `mapApiErrors`
+   - Labels: `lib/labels.ts`. NEVER hardcoded user-facing text
+   - Env: `import { env } from "@/config/env"`. NEVER `process.env`
+   - Styling: Tailwind + `cn()` only. NEVER CSS modules or styled-components
+   - No barrel exports. NEVER `index.ts` re-exports
+   - No cross-module imports (except `types.ts`)
+   - `app/` has no business logic — only routing and layouts
+   - TypeScript strict. NEVER `any`. IDs and timestamps = `string`
+   - Permissions: `can("mod.action")`, `<Authorized permission="...">`
    - Run: `cd frontend && npm run test -- --run {test-file}`
    - **Verify: PASS**
 4. **REFACTOR — Clean if needed.** Run full suite: `npm run test` — ALL PASS

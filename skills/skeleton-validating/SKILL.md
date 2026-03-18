@@ -61,6 +61,38 @@ Full verification with evidence. Every assertion needs command output.
 | 3 | `cd frontend && npm run typecheck` | Exit 0 |
 | 4 | `cd frontend && npm run build` | Exit 0 |
 
+### Architecture Checklist (manual — final mode only)
+
+After all commands pass, read the generated/modified code and verify:
+
+**Backend:**
+- [ ] Controllers thin: only validate → authorize → Action → response
+- [ ] Actions invocable (`__invoke()`), all business logic
+- [ ] DTOs pure: no `#[Rule()]`, no validation
+- [ ] FormRequests: `rules()` via `match($this->method())`
+- [ ] `Gate::authorize()` in controllers. NEVER `$this->authorize()`
+- [ ] Models: `HasAuditUser` + `LogsActivity`, status enums, no SoftDeletes
+- [ ] No destroy endpoints or DELETE routes
+- [ ] Permissions: `{module_snake_case}.{action}`
+- [ ] Inter-module: only `Contracts/` + `Data/` imports across modules
+
+**Frontend:**
+- [ ] No cross-module imports (except `types.ts`)
+- [ ] No barrel exports (no `index.ts` re-exports)
+- [ ] `app/` has no business logic
+- [ ] Data fetching via `api.*` only (no direct `fetch`)
+- [ ] Forms: Zod → RHF → shadcn
+- [ ] Labels from `lib/labels.ts` (no hardcoded text)
+- [ ] Env from `config/env.ts` (no `process.env`)
+
+**Import validation (backend):**
+Search for `use App\Modules\` across all modules. Cross-module imports are valid ONLY for:
+- `Contracts\` — always allowed
+- `Data\` — always allowed
+- `Models\` — allowed only for FK relationships (`belongsTo`/`hasMany`)
+
+Any other cross-module import (`Services/`, `Actions/`, `Http/`, etc.) = violation.
+
 ### Cross-project (full-stack)
 
 - `cd frontend && npm run generate:types` — regenerate from OpenAPI

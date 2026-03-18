@@ -23,19 +23,27 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - What data does it handle? (fields, types, relationships)
    - Does it interact with other modules? Which ones?
 3. **Inject architecture constraints** from ARCHITECTURE.md:
-   - Backend: base module structure (12 files), extension points only when triggered, inter-module via Contracts+Data only
-   - Frontend: base module structure (10 files), extension points only when triggered. Generate with `npx tsx scripts/make-module.ts --name={mod} --entity={Entity}`
+   - Backend: base module structure per ARCHITECTURE.md, scaffolded by `./vendor/bin/sail artisan make:module {Name} --entity={Entity}`. Extension points only when triggered. Inter-module via Contracts+Data only
+   - Frontend: base module structure per ARCHITECTURE.md, scaffolded by `npx tsx scripts/make-module.ts --name={mod} --entity={Entity}`. Extension points only when triggered
 4. **Propose design** (1 approach if architecture dictates, 2-3 if meaningful alternatives exist):
+   - For new modules: first task MUST be running the generator. NEVER create module files manually
    - Files to create/modify (exact paths)
    - Extension points needed (if any, with trigger justification)
    - Required tests
 5. **Design checklist** (verify before proceeding):
+   - [ ] New module? First task = run generator
    - [ ] Files in correct locations per ARCHITECTURE.md?
-   - [ ] No prohibited cross-module imports?
    - [ ] Naming follows conventions?
+   - [ ] No prohibited cross-module imports? (only Contracts/ + Data/)
    - [ ] No SoftDeletes? (status enums instead)
+   - [ ] No destroy endpoints? (status transitions instead)
    - [ ] ONE Data DTO, ONE FormRequest per entity (base case)?
-   - [ ] Tests in `Modules/{Mod}/Tests/{Entity}Test.php` (backend) or `modules/{mod}/__tests__/{mod}.test.ts` (frontend)?
+   - [ ] Models have HasAuditUser + LogsActivity?
+   - [ ] Permissions named `{module_snake_case}.{action}`?
+   - [ ] Controllers thin? (validate → authorize → Action → response)
+   - [ ] Tests in correct location per ARCHITECTURE.md?
+   - [ ] [FE] No barrel exports? No cross-module imports?
+   - [ ] [FE] Forms: Zod → RHF → shadcn? Labels from `lib/labels.ts`? Env from `config/env.ts`?
 6. **User approval:** Present design, wait for explicit confirmation.
 
 ## Phase 2 — Plan
