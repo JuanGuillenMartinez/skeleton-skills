@@ -22,6 +22,10 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - Who uses it? (roles, permissions)
    - What data does it handle? (fields, types, relationships)
    - Does it interact with other modules? Which ones?
+   - **Deletion strategy:** ¿Este módulo requiere eliminación de registros?
+     → **No (default):** status enum (active/inactive) + sin destroy endpoint
+     → **Sí:** destroy endpoint — solo si el módulo es standalone, sin historia crítica (reportes, auditorías, referencias FK desde otros módulos)
+     → Si otros módulos tienen FK hacia este → forzar No, explicar por qué
 3. **Inject architecture constraints** from ARCHITECTURE.md:
    - Backend: base module structure per ARCHITECTURE.md, scaffolded by `./vendor/bin/sail artisan make:module {Name} --entity={Entity}`. Extension points only when triggered. Inter-module via Contracts+Data only
    - Frontend: base module structure per ARCHITECTURE.md, scaffolded by `npx tsx scripts/make-module.ts --name={mod} --entity={Entity}`. Extension points only when triggered
@@ -36,7 +40,7 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - [ ] Naming follows conventions?
    - [ ] No prohibited cross-module imports? (only Contracts/ + Data/)
    - [ ] No SoftDeletes? (status enums instead)
-   - [ ] No destroy endpoints? (status transitions instead)
+   - [ ] Deletion strategy confirmed? (No → status transitions, Sí → destroy only if standalone + no FK refs)
    - [ ] ONE Data DTO, ONE FormRequest per entity (base case)?
    - [ ] Models have HasAuditUser + LogsActivity?
    - [ ] Permissions named `{module_snake_case}.{action}`?
