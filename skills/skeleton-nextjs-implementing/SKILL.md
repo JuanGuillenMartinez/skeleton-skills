@@ -41,6 +41,8 @@ TDD implementation for frontend tasks. Every task follows RED→GREEN→REFACTOR
    - Permissions: `can("mod.action")`, `<Authorized permission="...">`
    - Run: `cd frontend && npm run test -- --run {test-file}`
    - **Verify: PASS**
+   - RULE: Every component in `modules/{mod}/components/` gets a `.stories.tsx`
+   - NEVER: Component without at least a Default story at commit time
 4. **REFACTOR — Clean if needed.** Run full suite: `npm run test` — ALL PASS
 5. **GUARD:** `npm run lint && npm run typecheck`
 6. **COMMIT:** `cd frontend && git add [files] && git commit -m "feat(mod): description"`

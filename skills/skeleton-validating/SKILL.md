@@ -60,6 +60,7 @@ Full verification with evidence. Every assertion needs command output.
 | 2 | `cd frontend && npm run lint` | Exit 0 |
 | 3 | `cd frontend && npm run typecheck` | Exit 0 |
 | 4 | `cd frontend && npm run build` | Exit 0 |
+| 5 | `cd frontend && npx storybook build` | Exit 0 |
 
 ### Architecture Checklist (manual — final mode only)
 
@@ -84,6 +85,7 @@ After all commands pass, read the generated/modified code and verify:
 - [ ] Forms: Zod → RHF → shadcn
 - [ ] Labels from `lib/labels.ts` (no hardcoded text)
 - [ ] Env from `config/env.ts` (no `process.env`)
+- [ ] Every component has its `.stories.tsx`
 
 **Import validation (backend):**
 Search for `use App\Modules\` across all modules. Cross-module imports are valid ONLY for:

@@ -31,6 +31,7 @@ Guides completion of development work with multi-repo awareness.
 3. **Pre-commit: API type sync** (before committing frontend):
    - [ ] `npm run generate:types` was run after the last backend change
    - [ ] `npm run typecheck` passes after regenerating types
+   - [ ] Story files exist for all new components
 4. **Execute** (backend FIRST for full-stack):
    - **A:** `git checkout main && git merge {branch}`
    - **B:** `git push -u origin {branch} && gh pr create ...`
