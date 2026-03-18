@@ -26,18 +26,24 @@ PHP is NOT on host. All commands use `./vendor/bin/sail`:
 
 ## Checklist
 
+0. **Read `backend/ARCHITECTURE.md`** — verify plan alignment with current conventions before implementing.
 1. **Read the task** from the plan
 2. **RED — Write failing test:**
-   - Location: `Modules/{Mod}/Tests/{Entity}Test.php` (single file, `describe()` blocks)
+   - Location: `Modules/{Mod}/Tests/{Entity}Test.php` (single file)
+   - Structure: `describe()` blocks — Http, Actions, Policy, Model, Data
    - Framework: Pest (functional syntax, NOT PHPUnit)
    - Run: `./vendor/bin/sail artisan test --filter={TestName}`
    - **Verify: FAIL**
 3. **GREEN — Minimal implementation:**
-   - Actions: invocable (`__invoke()`)
-   - Data: ONE `{Entity}Data.php` with Optional fields
-   - FormRequests: ONE `{Entity}Request.php`, `rules()` via `match($this->method())`
-   - Authorization: `Gate::authorize()` (not `$this->authorize()`)
-   - No SoftDeletes — status enums
+   Implement per ARCHITECTURE.md. Quick-ref:
+   - Controller: thin — validate → `Gate::authorize()` → Action → response. NEVER `$this->authorize()`
+   - Actions: `__invoke()`. All business logic here. NEVER in controllers/policies/DTOs
+   - DTOs: pure typed data with `Optional` fields. NEVER `#[Rule()]` or validation
+   - FormRequest: ONE per entity. `rules()` via `match($this->method())`
+   - Models: `HasAuditUser` + `LogsActivity`. Status enums. NEVER SoftDeletes
+   - Inter-module: only `Contracts/` + `Data/`. NEVER `Services/`, `Actions/` from other modules
+   - No destroy endpoints. Status transitions only
+   - Permissions: `{module_snake_case}.{action}`. NEVER entity name as prefix
    - i18n: `__('mod::messages.key')`
    - Run: `./vendor/bin/sail artisan test --filter={TestName}`
    - **Verify: PASS**

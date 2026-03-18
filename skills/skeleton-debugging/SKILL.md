@@ -115,6 +115,6 @@ Bug: "Creating a sale doesn't decrement stock"
 
 | Condition | Destination |
 |-----------|-------------|
-| Root cause identified, fix needs plan | `skeleton:planning` (for multi-file fix) |
-| Simple fix (1-2 files) | Execute Phase 4 directly, then `skeleton:verifying` |
+| Root cause identified, fix needs plan | `skeleton:designing` (for multi-file fix) |
+| Simple fix (1-2 files) | Execute Phase 4 directly, then `skeleton:validating` |
 | Bug is unresolvable | Escalate to human with all evidence |
