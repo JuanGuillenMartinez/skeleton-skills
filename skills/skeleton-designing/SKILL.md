@@ -22,10 +22,10 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - Who uses it? (roles, permissions)
    - What data does it handle? (fields, types, relationships)
    - Does it interact with other modules? Which ones?
-   - **Deletion strategy:** ¿Este módulo requiere eliminación de registros?
-     → **No (default):** status enum (active/inactive) + sin destroy endpoint
-     → **Sí:** destroy endpoint — solo si el módulo es standalone, sin historia crítica (reportes, auditorías, referencias FK desde otros módulos)
-     → Si otros módulos tienen FK hacia este → forzar No, explicar por qué
+   - **Deletion strategy:** Does this module require record deletion?
+     → **No (default):** status enum (active/inactive) + no destroy endpoint
+     → **Yes:** destroy endpoint — only if the module is standalone, with no critical history (reports, audits, FK references from other modules)
+     → If other modules have FK references to this one → force No, explain why
 3. **Inject architecture constraints** from ARCHITECTURE.md:
    - Backend: base module structure per ARCHITECTURE.md, scaffolded by `./vendor/bin/sail artisan make:module {Name} --entity={Entity}`. Extension points only when triggered. Inter-module via Contracts+Data only
    - Frontend: base module structure per ARCHITECTURE.md, scaffolded by `npx tsx scripts/make-module.ts --name={mod} --entity={Entity}`. Extension points only when triggered
@@ -40,7 +40,7 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - [ ] Naming follows conventions?
    - [ ] No prohibited cross-module imports? (only Contracts/ + Data/)
    - [ ] No SoftDeletes? (status enums instead)
-   - [ ] Deletion strategy confirmed? (No → status transitions, Sí → destroy only if standalone + no FK refs)
+   - [ ] Deletion strategy confirmed? (No → status transitions, Yes → destroy only if standalone + no FK refs)
    - [ ] ONE Data DTO, ONE FormRequest per entity (base case)?
    - [ ] Models have HasAuditUser + LogsActivity?
    - [ ] Permissions named `{module_snake_case}.{action}`?
@@ -48,12 +48,12 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - [ ] Tests in correct location per ARCHITECTURE.md?
    - [ ] [FE] No barrel exports? No cross-module imports?
    - [ ] [FE] Forms: Zod → RHF → shadcn? Labels from `lib/labels.ts`? Env from `config/env.ts`?
-   - [ ] [FE] IDs y timestamps son `string`, nunca `number`?
-   - [ ] [FE] TypeScript strict, sin `any`?
+   - [ ] [FE] IDs and timestamps are `string`, never `number`?
+   - [ ] [FE] TypeScript strict, no `any`?
    - [ ] [FE] State: server=TanStack Query, global UI=Zustand, local=useState?
    - [ ] [FE] Permisos con can()/Authorized en componentes que los requieran?
-   - [ ] [FE] Test strategy definida (qué hooks/components se testean)?
-   - [ ] [FE] Manejo de errores: mapApiErrors cubre 422 por campo, errores de negocio, y errores inesperados?
+   - [ ] [FE] Test strategy defined (which hooks/components are tested)?
+   - [ ] [FE] Error handling: mapApiErrors covers per-field 422, business errors, and unexpected errors?
 6. **User approval:** Present design, wait for explicit confirmation.
 
 ## Phase 2 — Plan

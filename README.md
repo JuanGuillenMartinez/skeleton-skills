@@ -39,7 +39,7 @@ bootstrap → design → implement (TDD) → validate → finish
 ```
 
 - **Backend first, frontend second** for full-stack features
-- **TDD obligatorio** — test first, implement second
+- **TDD mandatory** — test first, implement second
 - **Architecture guards** after every task and before completion
 
 ## License

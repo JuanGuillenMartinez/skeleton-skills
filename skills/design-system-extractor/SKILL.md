@@ -1,149 +1,149 @@
 ---
 name: design-system-extractor
-description: Examina una carpeta /design del proyecto para extraer la identidad visual y generar un manual de construcción (DESIGN_SYSTEM.md) que permita crear nuevas vistas desde cero con el mismo estilo y stack técnico. Usa esta skill cuando el usuario quiera analizar mockups, vistas HTML o capturas para extraer patrones visuales, crear guías de estilo, documentar un design system o unificar identidad visual. También cuando mencione carpetas /design, screen.png, mockups, o diga "revisa mis diseños", "sigue este estilo", "hazme una vista igual", o "crea una pantalla nueva para mi proyecto". No es solo documentación — es la receta para replicar el diseño.
+description: Examines a /design folder in the project to extract the visual identity and generate a construction manual (DESIGN_SYSTEM.md) that enables creating new views from scratch with the same style and technical stack. Use this skill when the user wants to analyze mockups, HTML views, or screenshots to extract visual patterns, create style guides, document a design system, or unify visual identity. Also when they mention /design folders, screen.png, mockups, or say "review my designs", "follow this style", "make me a view like this", or "create a new screen for my project". It's not just documentation — it's the recipe to replicate the design.
 ---
 
 # Design System Extractor
 
-Genera un `DESIGN_SYSTEM.md` analizando la carpeta `/design` del proyecto (cada módulo tiene `code.html` + `screen.png`). El resultado es un manual de construcción que permite crear vistas nuevas idénticas en estilo y stack.
+Generates a `DESIGN_SYSTEM.md` by analyzing the project's `/design` folder (each module has `code.html` + `screen.png`). The result is a construction manual that enables creating new views identical in style and stack.
 
-## Principio rector: Fidelidad al stack
+## Guiding principle: Stack fidelity
 
-Las nuevas vistas usan EXACTAMENTE las mismas tecnologías, librerías, CDNs (mismas URLs y versiones), fuentes e iconos del proyecto. No se introduce nada nuevo ni se reemplaza nada existente. El DESIGN_SYSTEM.md documenta un **stack obligatorio** y una lista de **tecnologías prohibidas**.
+New views use EXACTLY the same technologies, libraries, CDNs (same URLs and versions), fonts, and icons as the project. Nothing new is introduced and nothing existing is replaced. The DESIGN_SYSTEM.md documents a **mandatory stack** and a list of **prohibited technologies**.
 
-## Flujo de trabajo
+## Workflow
 
-### Paso 1: Descubrimiento
+### Step 1: Discovery
 
 ```bash
 find /design -type f \( -name "code.html" -o -name "screen.png" \) | sort
 ```
-Informar al usuario cuántos módulos hay y cuáles son. Si la estructura varía, adaptar.
+Inform the user how many modules exist and which ones. If the structure varies, adapt.
 
-### Paso 2: Análisis de cada módulo
+### Step 2: Analysis of each module
 
-**Del código (`code.html`) extraer con valores exactos:**
+**From the code (`code.html`) extract with exact values:**
 
-1. **Stack técnico** — Cada `<link>` y `<script>` del `<head>` (URLs textuales), `tailwind.config` completo si aplica, Google Fonts con pesos, librería de iconos con parámetros, estilos globales en `<style>`. Todo esto es el stack obligatorio que se copia idéntico.
+1. **Technical stack** — Every `<link>` and `<script>` from the `<head>` (literal URLs), complete `tailwind.config` if applicable, Google Fonts with weights, icon library with parameters, global styles in `<style>`. All of this is the mandatory stack that must be copied identically.
 
-2. **Tokens** — Colores (nombre semántico + hex + rol), tipografía (familia + peso + tamaño por elemento), espaciado (escala usada), bordes (grosor, color, radius por componente), sombras (valores exactos por intensidad), iconografía (librería, estilo, tamaño).
+2. **Tokens** — Colors (semantic name + hex + role), typography (family + weight + size per element), spacing (scale used), borders (thickness, color, radius per component), shadows (exact values per intensity), iconography (library, style, size).
 
-3. **Componentes** — Para cada uno (botones, cards, inputs, nav, footer, badges, etc.): estructura HTML con clases exactas, variantes, estados interactivos (hover/focus/active/disabled), snippet copiable funcional.
+3. **Components** — For each one (buttons, cards, inputs, nav, footer, badges, etc.): HTML structure with exact classes, variants, interactive states (hover/focus/active/disabled), copyable functional snippet.
 
-4. **Secciones** — Cada tipo de sección (hero, productos, testimonios, features, footer): layout (grid/flex, columnas), composición interna (qué componentes y en qué orden), decoración (fondos con opacidad, orbs, separadores).
+4. **Sections** — Each section type (hero, products, testimonials, features, footer): layout (grid/flex, columns), internal composition (which components and in what order), decoration (backgrounds with opacity, orbs, separators).
 
-5. **Layout general** — Estructura de página, ancho máximo, paddings responsive, patrón de navegación.
+5. **General layout** — Page structure, max width, responsive paddings, navigation pattern.
 
-**De la captura (`screen.png`) complementar:**
-Personalidad/tono visual, jerarquía (qué atrae primero), densidad de info, detalles decorativos que dan carácter. **Si código e imagen difieren, la imagen manda.**
+**From the screenshot (`screen.png`) complement:**
+Personality/visual tone, hierarchy (what draws attention first), information density, decorative details that give character. **If code and image differ, the image takes precedence.**
 
-### Paso 3: Síntesis (si hay múltiples módulos)
+### Step 3: Synthesis (if multiple modules exist)
 
-Identificar patrones consistentes (= el sistema), inconsistencias (señalar cuál debería ser el estándar), y destilar la filosofía visual en 2-3 frases concretas con valores (no "diseño moderno" sino "paleta turquesa-coral-mostaza, esquinas rounded-2xl/3xl, Montserrat bold para títulos + Lexend para body").
+Identify consistent patterns (= the system), inconsistencies (point out which should be the standard), and distill the visual philosophy into 2-3 concrete phrases with values (not "modern design" but rather "turquoise-coral-mustard palette, rounded-2xl/3xl corners, Montserrat bold for headings + Lexend for body").
 
-### Paso 4: Generar DESIGN_SYSTEM.md
+### Step 4: Generate DESIGN_SYSTEM.md
 
-Estructura del documento:
+Document structure:
 
 ```
-# Design System — [Nombre]
+# Design System — [Name]
 
-> [Filosofía visual: 2-3 frases con valores concretos]
+> [Visual philosophy: 2-3 phrases with concrete values]
 
-## 1. Stack obligatorio
+## 1. Mandatory stack
 
-### Dependencias
-| Tipo | Nombre | URL exacta |
-[Tabla con TODAS las dependencias]
+### Dependencies
+| Type | Name | Exact URL |
+[Table with ALL dependencies]
 
-### Bloque <head> completo (copiar tal cual a cada vista nueva)
+### Complete <head> block (copy as-is to each new view)
 ```html
-[<head> íntegro del proyecto]
+[Full project <head>]
 ```
 
-### Tailwind config (o equivalente)
+### Tailwind config (or equivalent)
 ```javascript
-[Config completo]
+[Complete config]
 ```
 
-### Estilos base
+### Base styles
 ```css
-[Estilos globales]
+[Global styles]
 ```
 
-### Tecnologías prohibidas
-[Lista de lo que NO debe introducirse: otros frameworks, otras fuentes, otros iconos, etc.]
+### Prohibited technologies
+[List of what must NOT be introduced: other frameworks, other fonts, other icons, etc.]
 
-## 2. Tokens de diseño
+## 2. Design tokens
 
-### Colores
-| Nombre | Clase/variable | Hex | Uso |
+### Colors
+| Name | Class/variable | Hex | Usage |
 
-### Tipografía
-| Rol | Familia | Peso | Tamaño | Cuándo usarla |
+### Typography
+| Role | Family | Weight | Size | When to use |
 
-### Espaciado, bordes, sombras, iconografía
-[Tablas con valores exactos]
+### Spacing, borders, shadows, iconography
+[Tables with exact values]
 
-## 3. Blueprints de componentes
+## 3. Component blueprints
 
-Para cada componente:
-- Snippet HTML copiable con clases reales
-- Variantes y estados
-- Notas de uso
+For each component:
+- Copyable HTML snippet with real classes
+- Variants and states
+- Usage notes
 
-[Botones, Cards, Header, Footer, Badges, Forms, etc.]
+[Buttons, Cards, Header, Footer, Badges, Forms, etc.]
 
-## 4. Blueprints de secciones
+## 4. Section blueprints
 
-Para cada tipo de sección:
-- Layout y composición
-- Qué componentes usa
-- Esqueleto HTML con comentarios
+For each section type:
+- Layout and composition
+- Which components it uses
+- HTML skeleton with comments
 
-[Hero, Productos, Testimonios, Features, Footer, etc.]
+[Hero, Products, Testimonials, Features, Footer, etc.]
 
-## 5. Receta para vista nueva
+## 5. Recipe for a new view
 
-1. Copiar boilerplate del <head> exacto
-2. Verificar stack — solo tecnologías del proyecto
-3. Armar esqueleto: Header → Secciones → Footer
-4. Elegir secciones de blueprints
-5. Rellenar con componentes de blueprints
-6. Usar solo tokens documentados
-7. Revisar contra reglas de oro
+1. Copy the exact <head> boilerplate
+2. Verify stack — only project technologies
+3. Build skeleton: Header → Sections → Footer
+4. Choose sections from blueprints
+5. Fill in with components from blueprints
+6. Use only documented tokens
+7. Review against golden rules
 
-## 6. Reglas de oro
+## 6. Golden rules
 
-[5-10 reglas ultra-específicas, cada una con:]
-- ✅ Qué hacer (valores exactos / clases)
-- ❌ Qué evitar
+[5-10 ultra-specific rules, each with:]
+- What to do (exact values / classes)
+- What to avoid
 
-## 7. Anti-patrones
+## 7. Anti-patterns
 
-### Violaciones de stack (las más graves)
-[Qué tecnologías no introducir y por qué]
+### Stack violations (most severe)
+[Which technologies not to introduce and why]
 
-### Violaciones de estilo
-[Qué decisiones visuales evitar]
+### Style violations
+[Which visual decisions to avoid]
 ```
 
-### Paso 5: Validación
+### Step 5: Validation
 
-Preguntar al usuario: ¿refleja la identidad visual? ¿Falta algún componente? ¿Ajustar reglas?
+Ask the user: Does it reflect the visual identity? Is any component missing? Adjust any rules?
 
-## Criterios de calidad
+## Quality criteria
 
-El documento está completo si:
-1. Un dev nuevo puede crear una vista solo con este documento
-2. Los snippets funcionan al copiar y pegar con el boilerplate
-3. 3 devs crearían vistas que se ven del mismo proyecto
-4. No hay frases ambiguas sin valores exactos
-5. Queda claro qué tecnologías se usan y cuáles están prohibidas
+The document is complete if:
+1. A new dev can create a view using only this document
+2. The snippets work when copied and pasted with the boilerplate
+3. 3 devs would create views that look like they belong to the same project
+4. There are no ambiguous phrases without exact values
+5. It is clear which technologies are used and which are prohibited
 
-## Notas
+## Notes
 
-- Con un solo módulo, se usa como única fuente de verdad.
-- Si hay inconsistencias entre módulos, sugerir el estándar más completo/frecuente.
-- Guardar donde indique el usuario, o junto a /design por defecto.
-- Si se necesita funcionalidad no cubierta por el stack, resolver con CSS/JS vanilla o lo que el proyecto ya tenga — nunca agregar dependencias sin autorización.
+- With a single module, use it as the single source of truth.
+- If there are inconsistencies between modules, suggest the most complete/frequent standard.
+- Save where the user indicates, or alongside /design by default.
+- If functionality not covered by the stack is needed, solve with vanilla CSS/JS or whatever the project already has — never add dependencies without authorization.
