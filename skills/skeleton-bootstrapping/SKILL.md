@@ -27,7 +27,15 @@ Entry point for every session. Loads context and routes intent.
      - If YES → load into context alongside ARCHITECTURE.md
      - If NO → inform user: "DESIGN_SYSTEM.md is needed for frontend work. Run design-system-extractor if /design folder exists."
    - ALWAYS re-read files from disk. NEVER rely on previously loaded content.
-4. Check for active plans in `docs/plans/`
+4. **Check for active plans** in `docs/plans/`:
+   - List `.md` files in `docs/plans/`
+   - For each, count unchecked steps: `grep -c '- \[ \]' docs/plans/*.md`
+   - If plan has unchecked steps → **active**
+   - One active plan → ask: "Found active plan: `{filename}` with N remaining tasks. Resume?"
+     - If YES → route to implementing skill with the plan
+     - If NO → proceed with new task routing
+   - Multiple active plans → show list, ask which to resume
+   - No active plans → proceed to routing as normal
 5. Route to skill:
 
 | Intent | Plan exists? | Destination |

@@ -15,12 +15,30 @@ TDD implementation for frontend tasks. Every task follows RED→GREEN→REFACTOR
 
 ## Checklist
 
+### Plan Tracking (MANDATORY)
+
+- RULE: Read the plan file from `docs/plans/` at the START of every task. Never work from memory.
+- RULE: Find the first unchecked `- [ ]` — that is your current task.
+- RULE: After COMMIT (step 6), update the plan file: `- [ ]` → `- [x]` for completed steps.
+- NEVER: Skip reading the plan. The file is the source of truth, not your memory.
+
 0. **Load design context (MANDATORY — NEVER SKIP):**
    - Read `frontend/ARCHITECTURE.md` from disk (even if read earlier — files change mid-session)
    - Read `frontend/DESIGN_SYSTEM.md` from disk (if it exists)
    - Read `frontend/CLAUDE.md` from disk
    - RULE: If DESIGN_SYSTEM.md exists, ALL visual decisions (colors, spacing, typography, variants) come from it. NEVER invent styles.
    - RULE: If DESIGN_SYSTEM.md does NOT exist, STOP. Tell user: "No DESIGN_SYSTEM.md found. Create one before implementing UI."
+0b. **Frontend Design Plugin Detection:**
+    - Check: `grep -r "frontend-design" .claude/settings.json .mcp.json 2>/dev/null`
+    - If installed:
+      - Plugin auto-invokes for frontend work — let it guide aesthetic decisions
+      - DESIGN_SYSTEM.md is the project-specific constraint layer on top of plugin guidance
+      - Hierarchy: DESIGN_SYSTEM.md tokens > plugin aesthetic guidance > defaults
+      - Plugin encourages avoiding generic AI aesthetics (Inter, purple gradients, cookie-cutter layouts). Follow this.
+      - If plugin conflicts with DESIGN_SYSTEM.md → DESIGN_SYSTEM.md wins
+    - If NOT installed:
+      - Use DESIGN_SYSTEM.md as sole visual authority
+      - Consider suggesting: "The anthropics/frontend-design plugin can improve UI quality"
 1. **Read the task** from the plan
 2. **RED — Write failing test:**
    - Location: `modules/{mod}/__tests__/{mod}.test.ts` (single file, `describe()` blocks)
@@ -61,6 +79,15 @@ TDD implementation for frontend tasks. Every task follows RED→GREEN→REFACTOR
    - [ ] Shared components in `components/`, module-specific in `modules/{mod}/components/`
    - [ ] New shared component → has `.stories.tsx`
 7. **Next:** Run `skeleton:validating task` then proceed to next task
+
+### Checkpoint (for plans with >5 tasks)
+
+After every 3 completed tasks:
+1. Re-read the plan file from disk
+2. Count completed vs remaining
+3. Report: "Checkpoint: N/Total tasks complete. Completed: [list]. Remaining: [list]. Continue?"
+4. Wait for user confirmation before proceeding
+- RULE: The checkpoint is part of the workflow. A task is not done until the plan file is updated.
 
 ## Test Pattern (Hook with MSW — mandatory)
 
