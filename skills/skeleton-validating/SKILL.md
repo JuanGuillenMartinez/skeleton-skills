@@ -41,6 +41,14 @@ PHPStan and module dependency checks run only in **final** mode.
 | `cd frontend && grep -rn "bg-\[#\|text-\[#\|border-\[#" modules/ app/ --include="*.tsx"` | 0 results (no hardcoded colors) |
 | `cd frontend && grep -rn "from.*modules/" modules/ --include="*.ts" --include="*.tsx" \| grep -v "__tests__\|from '\.\."` | 0 results (no cross-module imports) |
 
+### Anti-AI-Slop Check (if frontend-design plugin active)
+
+| Check | Pass criteria |
+|-------|---------------|
+| No generic font stacks | `grep -rn "font-family.*Inter\|font-family.*Roboto\|font-family.*Arial" modules/ app/ --include="*.tsx" --include="*.css"` → 0 results (unless DESIGN_SYSTEM.md chose these) |
+| No default purple gradients | `grep -rn "purple\|#7c3aed\|#8b5cf6\|violet" modules/ app/ --include="*.tsx" --include="*.css"` → review matches against DESIGN_SYSTEM.md |
+| No AI-generated decorative elements | Gradients, shadows, animations not in DESIGN_SYSTEM.md → FAIL |
+
 ### Result Protocol
 
 - **PASS** — All guards passed. Proceed to next task.
@@ -123,6 +131,17 @@ NEVER: Commit backend changes without syncing `types/api.ts`.
 
 - `git diff --stat` per repo — changes match the plan
 - No unexpected files (.env, node_modules/, vendor/)
+
+### Plan Completeness Check (final mode only)
+
+1. Read the plan file from `docs/plans/`
+2. Check for unchecked steps: `grep -c '- \[ \]' docs/plans/*.md`
+3. If unchecked > 0:
+   - List unchecked tasks explicitly
+   - **FAIL** — "Plan has N incomplete tasks"
+   - Either execute them or explain why skipped
+4. All checked → **PASS**
+- RULE: NEVER say "implementation complete" if the plan file has unchecked items.
 
 ### Report
 

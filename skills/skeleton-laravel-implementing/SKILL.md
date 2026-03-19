@@ -26,6 +26,13 @@ PHP is NOT on host. All commands use `./vendor/bin/sail`:
 
 ## Checklist
 
+### Plan Tracking (MANDATORY)
+
+- RULE: Read the plan file from `docs/plans/` at the START of every task. Never work from memory.
+- RULE: Find the first unchecked `- [ ]` — that is your current task.
+- RULE: After COMMIT (step 6), update the plan file: `- [ ]` → `- [x]` for completed steps.
+- NEVER: Skip reading the plan. The file is the source of truth, not your memory.
+
 0. **Read `backend/ARCHITECTURE.md`** — verify plan alignment with current conventions before implementing.
 1. **Read the task** from the plan
 2. **RED — Write failing test:**
@@ -51,6 +58,15 @@ PHP is NOT on host. All commands use `./vendor/bin/sail`:
 5. **GUARD:** `./vendor/bin/sail php ./vendor/bin/pint` (auto-fix style)
 6. **COMMIT:** `cd backend && git add [files] && git commit -m "feat(mod): description"`
 7. **Next:** Run `skeleton:validating task` then proceed to next task
+
+### Checkpoint (for plans with >5 tasks)
+
+After every 3 completed tasks:
+1. Re-read the plan file from disk
+2. Count completed vs remaining
+3. Report: "Checkpoint: N/Total tasks complete. Completed: [list]. Remaining: [list]. Continue?"
+4. Wait for user confirmation before proceeding
+- RULE: The checkpoint is part of the workflow. A task is not done until the plan file is updated.
 
 ## Test Pattern (Feature — mandatory)
 

@@ -16,6 +16,24 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
 
 ## Phase 1 — Explore & Design
 
+0. **Design Discovery (MANDATORY for frontend tasks):**
+   1. Check if `/design` folder exists in the project root
+      - If YES: list files, read image descriptions/PDFs/wireframes
+      - Present: "Found design references in /design: [list]. Using as visual foundation."
+   2. Check if user provided design files/links (Figma, screenshots, mockups)
+      - If YES: acknowledge and reference them
+   3. Check if `frontend/DESIGN_SYSTEM.md` exists
+      - If YES: read it. All visual decisions flow from this file
+      - If NO + /design exists: suggest `design-system-extractor` first
+      - If NO + no /design: note we need visual direction during brainstorming
+   4. If implementing a NEW page with no design reference:
+      - Read existing pages/components for visual consistency
+      - Generate text-based layout description during brainstorming
+      - Get user approval on layout BEFORE any code
+   5. Check if `anthropics/frontend-design` plugin is installed: `grep -r "frontend-design" .claude/settings.json .mcp.json 2>/dev/null`
+      - If YES: note in spec. During implementation, aesthetic decisions combine DESIGN_SYSTEM.md tokens + plugin guidance
+      - When brainstorming visual direction, reference plugin archetypes: Brutally Minimal, Maximalist, Retro-Futuristic, Luxury/Refined, Editorial/Magazine — ask user which fits
+   - RULE: NEVER start UI without (a) design reference from /design or user, (b) approved layout from brainstorming, or (c) DESIGN_SYSTEM.md with enough patterns. If none exist, STOP.
 1. **Read existing code** relevant to the area of change. Check for similar patterns.
 2. **Ask the user** (consolidate when possible — propose defaults for speed):
    - What problem does this solve?
@@ -63,10 +81,14 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - [ ] [FE] DESIGN_SYSTEM.md read? Visual decisions reference its tokens?
    - [ ] [FE] New shared components identified? Storybook stories planned?
 6. **User approval:** Present design, wait for explicit confirmation.
+7. **Save design spec** to `docs/specs/YYYY-MM-DD-{feature-name}.spec.md`:
+   - Scope, visual references used, layout decisions, extension points, out-of-scope
+   - Commit spec before proceeding to plan
+   - RULE: The plan references the spec file. Design lives on disk, not in conversation context.
 
 ## Phase 2 — Plan
 
-7. **Decompose into atomic tasks** (2-5 min each):
+8. **Decompose into atomic tasks** (2-5 min each):
 
    ### Task N: [Component Name]
    **Files:** Create: `path` | Modify: `path` | Test: `path`
@@ -80,12 +102,16 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - [ ] Verify
    - [ ] GUARD + COMMIT
 
-8. **Ordering rules:**
+9. **Ordering rules:**
    - Backend tasks BEFORE frontend tasks (full-stack)
    - Dependency order (migration before model before action before controller)
    - Compact format OK when referencing stub patterns from make:module: "Follow stub pattern, adapt Entity/mod names"
-9. **Save plan** to `docs/plans/YYYY-MM-DD-{feature-name}.md`
-10. **Handoff:** "Plan saved. Ready to execute?"
+10. **Save plan** to `docs/plans/YYYY-MM-DD-{feature-name}.md`
+    - RULE: The plan file on disk is the SINGLE SOURCE OF TRUTH for progress
+    - RULE: Each `- [ ]` becomes `- [x]` when completed. Implementing skills update the file after each step
+    - RULE: Resuming work = read plan from disk, find first unchecked `- [ ]`, continue from there
+    - NEVER: Rewrite the plan. Only toggle checkboxes and append notes
+11. **Handoff:** "Plan saved. Ready to execute?"
 
 ## Plan Header
 
