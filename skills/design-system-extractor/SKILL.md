@@ -132,6 +132,18 @@ For each section type:
 
 Ask the user: Does it reflect the visual identity? Is any component missing? Adjust any rules?
 
+### Agent-Consumable Output
+
+The generated DESIGN_SYSTEM.md MUST include these sections so `skeleton:nextjs-implementing` can consume them:
+
+1. **Color Tokens** — Tailwind class mapping (e.g., primary → `bg-blue-600`)
+2. **Typography Scale** — sizes, weights, line heights as Tailwind classes
+3. **Spacing Scale** — standard spacing values
+4. **Component Library** — shadcn/ui components used + custom components
+5. **Layout Patterns** — dashboard, form, list/table layouts
+6. **Status/Badge Variants** — active/inactive/error display
+7. **Form Patterns** — field layout, error display, button placement
+
 ## Quality criteria
 
 The document is complete if:

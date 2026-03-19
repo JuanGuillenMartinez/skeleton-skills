@@ -15,7 +15,12 @@ TDD implementation for frontend tasks. Every task follows RED→GREEN→REFACTOR
 
 ## Checklist
 
-0. **Read `frontend/ARCHITECTURE.md`** — verify plan alignment with current conventions before implementing.
+0. **Load design context (MANDATORY — NEVER SKIP):**
+   - Read `frontend/ARCHITECTURE.md` from disk (even if read earlier — files change mid-session)
+   - Read `frontend/DESIGN_SYSTEM.md` from disk (if it exists)
+   - Read `frontend/CLAUDE.md` from disk
+   - RULE: If DESIGN_SYSTEM.md exists, ALL visual decisions (colors, spacing, typography, variants) come from it. NEVER invent styles.
+   - RULE: If DESIGN_SYSTEM.md does NOT exist, STOP. Tell user: "No DESIGN_SYSTEM.md found. Create one before implementing UI."
 1. **Read the task** from the plan
 2. **RED — Write failing test:**
    - Location: `modules/{mod}/__tests__/{mod}.test.ts` (single file, `describe()` blocks)
@@ -43,9 +48,18 @@ TDD implementation for frontend tasks. Every task follows RED→GREEN→REFACTOR
    - **Verify: PASS**
    - RULE: Every component in `modules/{mod}/components/` gets a `.stories.tsx`
    - NEVER: Component without at least a Default story at commit time
+   - RULE: New SHARED components (`components/` or `components/ui/`) MUST have `.stories.tsx`
+   - RULE: If Storybook not configured, configure BEFORE creating shared components. Check: `ls .storybook/main.ts`
 4. **REFACTOR — Clean if needed.** Run full suite: `npm run test` — ALL PASS
 5. **GUARD:** `npm run lint && npm run typecheck`
 6. **COMMIT:** `cd frontend && git add [files] && git commit -m "feat(mod): description"`
+6b. **POST-TASK VALIDATION:**
+   - [ ] Colors/spacing/typography from DESIGN_SYSTEM.md tokens only (no hardcoded hex/px)
+   - [ ] Component structure per ARCHITECTURE.md module pattern
+   - [ ] Imports use `@/` alias, no barrel exports
+   - [ ] Labels from `lib/labels.ts`, not hardcoded strings
+   - [ ] Shared components in `components/`, module-specific in `modules/{mod}/components/`
+   - [ ] New shared component → has `.stories.tsx`
 7. **Next:** Run `skeleton:validating task` then proceed to next task
 
 ## Test Pattern (Hook with MSW — mandatory)

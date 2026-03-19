@@ -34,6 +34,13 @@ PHPStan and module dependency checks run only in **final** mode.
 | `cd frontend && npm run lint` | Exit 0 |
 | `cd frontend && npm run typecheck` | Exit 0 |
 
+### Frontend Design Compliance (task + final)
+
+| Command | Pass criteria |
+|---------|---------------|
+| `cd frontend && grep -rn "bg-\[#\|text-\[#\|border-\[#" modules/ app/ --include="*.tsx"` | 0 results (no hardcoded colors) |
+| `cd frontend && grep -rn "from.*modules/" modules/ --include="*.ts" --include="*.tsx" \| grep -v "__tests__\|from '\.\."` | 0 results (no cross-module imports) |
+
 ### Result Protocol
 
 - **PASS** — All guards passed. Proceed to next task.

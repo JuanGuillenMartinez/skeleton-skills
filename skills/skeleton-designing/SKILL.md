@@ -29,6 +29,12 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
 3. **Inject architecture constraints** from ARCHITECTURE.md:
    - Backend: base module structure per ARCHITECTURE.md, scaffolded by `./vendor/bin/sail artisan make:module {Name} --entity={Entity}`. Extension points only when triggered. Inter-module via Contracts+Data only
    - Frontend: base module structure per ARCHITECTURE.md, scaffolded by `npx tsx scripts/make-module.ts --name={mod} --entity={Entity}`. Extension points only when triggered
+   - **Frontend visual design** (when plan includes UI tasks):
+     - Read `frontend/DESIGN_SYSTEM.md` from disk before designing
+     - List which existing design system components will be reused
+     - List which NEW components need creation (these need `.stories.tsx`)
+     - Specify module structure: files in `modules/{mod}/` and pages in `app/`
+     - NEVER: vague UI descriptions ("create a nice dashboard"). Specify exact components, layout pattern, and module location
 4. **Propose design** (1 approach if architecture dictates, 2-3 if meaningful alternatives exist):
    - For new modules: first task MUST be running the generator. NEVER create module files manually
    - Files to create/modify (exact paths)
@@ -54,6 +60,8 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - [ ] [FE] Permisos con can()/Authorized en componentes que los requieran?
    - [ ] [FE] Test strategy defined (which hooks/components are tested)?
    - [ ] [FE] Error handling: mapApiErrors covers per-field 422, business errors, and unexpected errors?
+   - [ ] [FE] DESIGN_SYSTEM.md read? Visual decisions reference its tokens?
+   - [ ] [FE] New shared components identified? Storybook stories planned?
 6. **User approval:** Present design, wait for explicit confirmation.
 
 ## Phase 2 — Plan

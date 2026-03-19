@@ -21,6 +21,12 @@ Entry point for every session. Loads context and routes intent.
    - **Bug:** error, fix, broken, not working
    - **Skill:** create skill, edit skill, workflow
 3. Read `{repo}/CLAUDE.md` + `{repo}/ARCHITECTURE.md` for target repo(s)
+3b. **Frontend task gate:**
+   - If task involves frontend/UI work:
+     - Check if `frontend/DESIGN_SYSTEM.md` exists
+     - If YES → load into context alongside ARCHITECTURE.md
+     - If NO → inform user: "DESIGN_SYSTEM.md is needed for frontend work. Run design-system-extractor if /design folder exists."
+   - ALWAYS re-read files from disk. NEVER rely on previously loaded content.
 4. Check for active plans in `docs/plans/`
 5. Route to skill:
 
