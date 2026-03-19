@@ -28,6 +28,9 @@ TDD implementation for frontend tasks. Every task follows RED→GREEN→REFACTOR
    - Read `frontend/CLAUDE.md` from disk
    - RULE: If DESIGN_SYSTEM.md exists, ALL visual decisions (colors, spacing, typography, variants) come from it. NEVER invent styles.
    - RULE: If DESIGN_SYSTEM.md does NOT exist, STOP. Tell user: "No DESIGN_SYSTEM.md found. Create one before implementing UI."
+   - Check if an approved prototype exists: `ls frontend/.previews/{feature-name}.html`
+     - If YES: read it. This is your VISUAL REFERENCE. The implemented version must match this prototype.
+     - If NO and the task involves significant UI: suggest `skeleton:previewing` first. "No approved prototype. Want a quick HTML preview before implementing?"
 0b. **Frontend Design Plugin Detection:**
     - Check: `grep -r "frontend-design" .claude/settings.json .mcp.json 2>/dev/null`
     - If installed:

@@ -123,6 +123,19 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
 **Architecture:** [2-3 sentences]
 ```
 
+## Preview Decision
+
+When creating the plan for a task with frontend UI:
+- Add a "Preview" task BEFORE the frontend implementation tasks
+- The preview task invokes `skeleton:previewing`
+- Implementation tasks reference the approved prototype
+
+Example plan structure for a feature with UI:
+  Task 1: [Backend work]
+  Task 2: [Preview] Generate and approve HTML prototype ← `skeleton:previewing`
+  Task 3: [Frontend] Implement approved prototype in React ← `skeleton:nextjs-implementing`
+  Task 4: [Frontend] Fidelity check against prototype
+
 ## Anti-Rationalizations
 
 | Temptation | Reality |

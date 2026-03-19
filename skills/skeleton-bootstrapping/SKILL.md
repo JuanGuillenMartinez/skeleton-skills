@@ -45,6 +45,9 @@ Entry point for every session. Loads context and routes intent.
 | Bug / error | N/A | `skeleton:debugging` |
 | Create/edit skill | N/A | `skeleton:writing-skills` |
 
+5b. **Preview routing:**
+    - If user intent involves frontend UI AND uses words like: "preview", "show me first", "mockup", "let me see", "prototype", "how would it look" → route to `skeleton:previewing`
+    - If user says "implement" or "build" for a UI task and no prototype exists in `frontend/.previews/` → suggest: "Want a quick preview before I implement, or should I go straight to code?"
 6. Inform user: what context was loaded and where we're routing
 
 ## Anti-Rationalizations
