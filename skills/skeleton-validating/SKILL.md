@@ -91,6 +91,13 @@ After all commands pass, read the generated/modified code and verify:
 - [ ] No destroy endpoints or DELETE routes
 - [ ] Permissions: `{module_snake_case}.{action}`
 - [ ] Inter-module: only `Contracts/` + `Data/` imports across modules
+- [ ] Controllers return via `{Entity}Resource` — no raw `response()->json($model)` or `response()->json($data)`
+- [ ] Resource file exists for every entity in the module (`Http/Resources/{Entity}Resource.php`)
+- [ ] Create{Entity}Action receives InputData — not UpdateData, Data, or raw array
+- [ ] Update{Entity}Action receives UpdateData — not InputData, Data, or raw array
+- [ ] List{Entity}Action receives FilterData — not raw Request or array
+- [ ] {Entity}Data is never used as input to any Action that writes to the database
+- [ ] QueryBuilder logic is ONLY in List{Entity}Action — not in Controllers or other Actions
 
 **Frontend:**
 - [ ] No cross-module imports (except `types.ts`)

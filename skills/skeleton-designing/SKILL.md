@@ -65,7 +65,10 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - [ ] No prohibited cross-module imports? (only Contracts/ + Data/)
    - [ ] No SoftDeletes? (status enums instead)
    - [ ] Deletion strategy confirmed? (No → status transitions, Yes → destroy only if standalone + no FK refs)
-   - [ ] ONE Data DTO, ONE FormRequest per entity (base case)?
+   - [ ] Four DTOs planned: InputData (create), UpdateData (update), Data (output), FilterData (index)?
+   - [ ] ListAction planned for index query logic — not in Controller?
+   - [ ] Resource planned for output transformation?
+   - [ ] ONE FormRequest per entity (base case)?
    - [ ] Models have HasAuditUser + LogsActivity?
    - [ ] Permissions named `{module_snake_case}.{action}`?
    - [ ] Controllers thin? (validate → authorize → Action → response)
@@ -75,7 +78,7 @@ Explores requirements and produces a ready-to-execute TDD plan in a single cycle
    - [ ] [FE] IDs and timestamps are `string`, never `number`?
    - [ ] [FE] TypeScript strict, no `any`?
    - [ ] [FE] State: server=TanStack Query, global UI=Zustand, local=useState?
-   - [ ] [FE] Permisos con can()/Authorized en componentes que los requieran?
+   - [ ] [FE] Permissions: components using can()/Authorized where required?
    - [ ] [FE] Test strategy defined (which hooks/components are tested)?
    - [ ] [FE] Error handling: mapApiErrors covers per-field 422, business errors, and unexpected errors?
    - [ ] [FE] DESIGN_SYSTEM.md read? Visual decisions reference its tokens?

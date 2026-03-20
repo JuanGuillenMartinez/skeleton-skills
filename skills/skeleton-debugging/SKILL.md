@@ -12,6 +12,11 @@ Systematic 4-phase debugging adapted to the project's stack. Never jump to fixes
 
 **Announce:** "Using skeleton:debugging to systematically investigate this issue."
 
+**Execution environment:** PHP is NOT available on the host.
+All artisan commands must use: `./vendor/bin/sail artisan {command}`
+All composer commands must use: `./vendor/bin/sail composer {command}`
+Running bare `php artisan` or `composer` will fail immediately.
+
 ## Phase 1: Reproduce
 
 1. Get bug description (error message, stack trace, expected vs actual behavior)
@@ -21,7 +26,7 @@ Systematic 4-phase debugging adapted to the project's stack. Never jump to fixes
    - API contract mismatch → investigate both
 3. Read ARCHITECTURE.md for the affected repo
 4. Reproduce the bug:
-   - Backend: `cd backend && php artisan test --filter={RelevantTest}` or manual request
+   - Backend: `cd backend && ./vendor/bin/sail artisan test --filter={RelevantTest}` or manual request
    - Frontend: `cd frontend && npm run test` or reproduce in browser
 5. **Document:** Exact input, expected output, actual output, stack trace
 
@@ -35,8 +40,8 @@ Systematic 4-phase debugging adapted to the project's stack. Never jump to fixes
    **Backend tools:**
    - `dd()` — dump and die at any point
    - `DB::listen(fn ($q) => logger($q->sql))` — log all queries
-   - `php artisan tinker` — interactive REPL
-   - `php artisan pail` — live tail logs
+   - `./vendor/bin/sail artisan tinker` — interactive REPL
+   - `./vendor/bin/sail artisan pail` — live tail logs
    - Telescope (if installed) — request inspector
 
    **Frontend flow:**
